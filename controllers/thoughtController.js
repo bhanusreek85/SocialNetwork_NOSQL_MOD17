@@ -1,6 +1,4 @@
-import { ObjectId } from "mongodb";
 import { Thought, User } from "../models/index.js";
-import { trusted } from "mongoose";
 
 export const createThought = async (req, res) => {
   console.log("Thought creation in-progress.....");

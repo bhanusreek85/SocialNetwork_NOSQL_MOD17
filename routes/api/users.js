@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const router = Router();
 import { getAllUsers, createUser,updateUser,getUser,deleteUser} from '../../controllers/userController.js';
-import{createfriend, removefriend} from '../../controllers/friendscontroller.js';
-// /api/students
+import{createfriend, removefriend} from '../../controllers/friendsController.js';
+// /api/users
 router.route('/')
     .get(getAllUsers)
     .post(createUser);
