@@ -1,5 +1,6 @@
 import {Schema, model} from "mongoose";
 import reactionSchema  from "./reaction.js";
+import moment from "moment";
 
 const thoughtsSchema = new Schema ({
     thoughtText:{
@@ -13,7 +14,7 @@ const thoughtsSchema = new Schema ({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: (timestamp) => moment(timestamp).format('MMMM Do YYYY, h:mm:ss a')
+        get: (timestamp) => moment(timestamp).format('MMMM Do, YYYY [at] h:mm a')
     },
     userName:{
         type:String,
