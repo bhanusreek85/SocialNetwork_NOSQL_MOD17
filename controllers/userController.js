@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { User,Thought } from "../models/index.js";
-import { trusted } from "mongoose";
+import { User, Thought } from "../models/index.js";
+import  mongoose  from "mongoose";
 
 export const createUser = async (req, res) => {
   console.log("User Creation in-progress...");
@@ -36,6 +36,11 @@ export const getUser = async (req, res) => {
   console.log("Getting all user in-progress...");
   const { userId } = req.params;
   try {
+    // Validate if userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -52,6 +57,10 @@ export const updateUser = async (req, res) => {
   const { userId } = req.params;
   const updateData = req.body;
   try {
+    // Validate if userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
     const user = await User.findByIdAndUpdate(userId, updateData, {
       new: true,
       runValidators: true,
@@ -68,9 +77,12 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   console.log("deleting user in-progress...");
+  const { userId } = req.params;
   try {
-    const { userId } = req.params;
-
+    // Validate if userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
     // Find the user by ID
     const user = await User.findById(userId);
 
@@ -82,7 +94,7 @@ export const deleteUser = async (req, res) => {
     await Thought.deleteMany({ _id: { $in: user.thoughts } });
 
     // Delete the user
-    await User.findByIdAndDelete(userId);
+    await User.deleteOne({_id:userId});
 
     res.json({ message: "User and associated thoughts deleted successfully" });
   } catch (err) {

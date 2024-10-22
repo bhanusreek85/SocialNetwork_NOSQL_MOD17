@@ -1,10 +1,20 @@
 import { ObjectId } from "mongodb";
 import { User } from "../models/index.js";
+import mongoose from "mongoose";
 
 export const createfriend = async (req, res) => {
   console.log("Adding friend in-progress....");
   try {
     const { userId, friendId } = req.params;
+
+    // Validate if friendId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(friendId)) {
+      return res.status(400).json({ message: "Invalid friend ID" });
+    }
+    // Validate if userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
     //validate user
     const user = await User.findById(userId);
 
@@ -31,6 +41,14 @@ export const removefriend = async (req, res) => {
   console.log("removing friend in-progress....");
   try {
     const { userId, friendId } = req.params;
+    // Validate if friendId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(friendId)) {
+      return res.status(400).json({ message: "Invalid friend ID" });
+    }
+    // Validate if userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
     //validate user
     const user = await User.findById(userId);
     if (!user) {
