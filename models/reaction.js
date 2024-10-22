@@ -1,4 +1,5 @@
-import {Schema, model,Types} from "mongoose";
+import {Schema,Types} from "mongoose";
+import moment from "moment";
 
 const reactionSchema = new Schema ({
     reactionId:{
@@ -7,9 +8,10 @@ const reactionSchema = new Schema ({
     },
 
     reactionBody: {
-        type: Date,
-        default: Date.now,
-        get: (timestamp) => moment(timestamp).format('MMMM Do YYYY, h:mm:ss a')
+        type: String,
+        required:true,
+        min:1,
+        max:280
     },
     userName:{
         type:String,
@@ -18,7 +20,7 @@ const reactionSchema = new Schema ({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: (timestamp) => moment(timestamp).format('MMMM Do YYYY, h:mm:ss a')
+        get: (timestamp) => moment(timestamp).format('MMMM Do, YYYY [at] h:mm a')
     },
 
 },{
@@ -27,6 +29,5 @@ const reactionSchema = new Schema ({
         getters: true
     }
 });
-// const reaction = model("reaction", reactionSchema);
 
 export default reactionSchema;

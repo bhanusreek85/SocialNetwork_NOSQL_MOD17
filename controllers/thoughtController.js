@@ -36,9 +36,8 @@ export const getAllThoughts = async (_req, res) => {
     const thought = await Thought.find();
     res.json(thought);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    console.error("Error getting thoughts:", err);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -52,8 +51,7 @@ export const getThought = async (req, res) => {
     }
     res.json(thought);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    console.error("Error getting thought:", err);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
